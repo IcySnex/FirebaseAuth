@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirebaseAuth", "FirebaseAuth\FirebaseAuth.csproj", "{9E93F7E6-B4CB-4F66-8958-34A73BEEDA72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirebaseAuth.Tests", "FirebaseAuth.Tests\FirebaseAuth.Tests.csproj", "{166EB751-404B-4FEE-AF79-27B7A57EC117}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E93F7E6-B4CB-4F66-8958-34A73BEEDA72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E93F7E6-B4CB-4F66-8958-34A73BEEDA72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E93F7E6-B4CB-4F66-8958-34A73BEEDA72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E93F7E6-B4CB-4F66-8958-34A73BEEDA72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{166EB751-404B-4FEE-AF79-27B7A57EC117}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{166EB751-404B-4FEE-AF79-27B7A57EC117}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{166EB751-404B-4FEE-AF79-27B7A57EC117}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{166EB751-404B-4FEE-AF79-27B7A57EC117}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7011C8B5-264F-44E9-9459-98ECC23BFAC8}
+	EndGlobalSection
+EndGlobal
