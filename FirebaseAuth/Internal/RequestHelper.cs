@@ -1,9 +1,7 @@
 ﻿using FirebaseAuth.Configuration;
 using FirebaseAuth.Exceptions;
 using FirebaseAuth.Internal.Json;
-using FirebaseAuth.Responses;
 using System.Text;
-using System.Threading;
 
 namespace FirebaseAuth.Internal;
 
