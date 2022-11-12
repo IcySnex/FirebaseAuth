@@ -10,7 +10,7 @@ namespace FirebaseAuth.Internal;
 /// </summary>
 internal class RequestHelper
 {
-    HttpClient httpClient;
+    readonly HttpClient httpClient;
 
     /// <summary>
     /// Creates a new RequestHelper
