@@ -3,9 +3,9 @@
 namespace FirebaseAuth.EventArgs;
 
 /// <summary>
-/// Event arguments for when a secure RefreshToken gets refreshed
+/// Event arguments for when a secure AuthenticationResponse gets refreshed
 /// </summary>
-public class RefreshTokenRefreshEventArgs : System.EventArgs
+public class AuthenticationRefreshEventArgs : System.EventArgs
 {
     /// <summary>
     /// The old AuthenticationResponse before it got refreshed
@@ -23,9 +23,9 @@ public class RefreshTokenRefreshEventArgs : System.EventArgs
     public DateTime OccurredAt { get; } = DateTime.Now;
 
     /// <summary>
-    /// Creates new RefreshTokenRefreshEventArgs
+    /// Creates new AuthenticationRefreshEventArgs
     /// </summary>
-    public RefreshTokenRefreshEventArgs(
+    public AuthenticationRefreshEventArgs(
         AuthenticationResponse oldResponse,
         AuthenticationResponse newResponse)
     {
