@@ -1,4 +1,8 @@
-﻿
+﻿// This file is excluded from pushing to git.
+// Use Git GUI to open repo, Press Repository (top left), Click Git Bash
+// Commands:    LOCK FILE:      git update-index --skip-worktree FirebaseAuth.Tests/TestData.cs
+//              UNLOCK FILE:    git update-index --no-skip-worktree FirebaseAuth.Tests/TestData.cs
+
 namespace FirebaseAuth.Tests;
 
 internal class TestData
@@ -14,6 +18,16 @@ internal class TestData
     /// </summary>
     public static readonly TimeSpan? Timeout = null;
 
+
+    /// <summary>
+    /// The default CustomToken for authentication
+    /// </summary>
+    public static readonly string CustomToken = "<CUSTOM TOKEN>";
+
+    /// <summary>
+    /// The default Id token for requests
+    /// </summary>
+    public static readonly string IdToken = "<ID TOKEN>";
 
     /// <summary>
     /// The default email address for authentication

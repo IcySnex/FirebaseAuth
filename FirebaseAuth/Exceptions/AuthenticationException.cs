@@ -57,9 +57,6 @@ public class AuthenticationException : Exception
             case "invalid access_token, error code 43.":
                 return new InvalidAccessTokenException();
 
-            case "INVALID_CUSTOM_TOKEN":
-                return new InvalidCustomTokenException();
-
             case "INVALID_EMAIL":
                 return new InvalidEmailException();
 
@@ -132,6 +129,9 @@ public class AuthenticationException : Exception
                 
                 if (message.StartsWith("Invalid value"))
                     return new InvalidValueException();
+                
+                if (message.StartsWith("INVALID_CUSTOM_TOKEN"))
+                    return new InvalidCustomTokenException();
 
 
                 return new("UNDEFINDED", $"An unknown exception occurred while trying to communicate with the Firebase authentication server. ({message})") { ResponseData = responseData};

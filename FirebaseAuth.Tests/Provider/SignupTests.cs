@@ -5,7 +5,7 @@ using FirebaseAuth.Requests;
 
 namespace FirebaseAuth.Tests.Provider;
 
-public class SignupTests
+public class SignUpTests
 {
     AuthenticationConfig config;
     AuthenticationProvider provider;
