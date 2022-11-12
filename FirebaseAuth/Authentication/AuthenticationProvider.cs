@@ -2,14 +2,24 @@
 using FirebaseAuth.Exceptions;
 using FirebaseAuth.Interfaces;
 using FirebaseAuth.Internal;
+using FirebaseAuth.Models;
 using FirebaseAuth.Requests;
+using FirebaseAuth.Responses;
+using System.Threading;
 
 namespace FirebaseAuth.Authentication;
 
+/// <summary>
+/// Provider for all Firebase Authentication actions
+/// </summary>
 public class AuthenticationProvider : IAuthenticationProvider
 {
     RequestHelper requestHelper;
 
+    /// <summary>
+    /// Creates a new AuthenticationProvider
+    /// </summary>
+    /// <param name="authenticationConfig">The configuration the AuthenticationProvider should be created with</param>
     public AuthenticationProvider(
         AuthenticationConfig authenticationConfig)
     {
@@ -18,18 +28,31 @@ public class AuthenticationProvider : IAuthenticationProvider
 
 
     public async Task SignUpAsync(
-        SignupRequest request,
+        SignUpRequest request,
         CancellationToken cancellationToken = default)
     {
-        HttpResponseMessage response = await requestHelper.PostBodyAsync(Endpoints.SignupNewUser, request, cancellationToken: cancellationToken)
-            .ConfigureAwait(false);
+        // Send HTTP request
+        AuthenticationResponse response = await requestHelper.PostBodyAndParseAsync<AuthenticationResponse>(Endpoints.SignupNewUser, request, null, cancellationToken);
 
-        string responseData = await response.Content.ReadAsStringAsync(cancellationToken)
-            .ConfigureAwait(false);
+        // Create refresher
+        IAuthenticationRefresher refresher = new AuthenticationRefresher(this, response);
 
-        if (!response.IsSuccessStatusCode)
-        {
-            throw AuthenticationException.FromResponseData(responseData);
-        }
+        // Get UserData
+        User user = await GetUserDataAsync(new(response.IdToken));
+    }
+
+
+    /// <summary>
+    /// Requests all data of an user
+    /// </summary>
+    /// <param name="request">The UserDataRequest to request</param>
+    /// <param name="cancellationToken">The token to cancel this action</param>
+    /// <returns>An model which represents all the users data</returns>
+    public async Task<User> GetUserDataAsync(
+        UserDataRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        UserDataResponse response = await requestHelper.PostBodyAndParseAsync<UserDataResponse>(Endpoints.GetAccountInfo, request, null, cancellationToken);
+        return response.Users[0];
     }
 }
