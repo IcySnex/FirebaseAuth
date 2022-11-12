@@ -3,7 +3,6 @@ using FirebaseAuth.Interfaces;
 using FirebaseAuth.Models;
 using FirebaseAuth.Requests;
 using FirebaseAuth.Responses;
-using System.Diagnostics;
 
 namespace FirebaseAuth.Authentication;
 
