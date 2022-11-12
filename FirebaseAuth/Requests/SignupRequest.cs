@@ -41,7 +41,7 @@ public class SignUpRequest
     /// <summary>
     /// Boolean wether to return a SecureToken
     /// </summary>
-    [JsonPropertyName("returnSeccureToken")]
+    [JsonPropertyName("returnSecureToken")]
     public bool ReturnSecureToken { get; set; }
 
     /// <summary>
