@@ -1,13 +1,8 @@
 ﻿using FirebaseAuth.Authentication;
 using FirebaseAuth.Configuration;
 using FirebaseAuth.Requests;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FirebaseAuth.Tests.Authentication;
+namespace FirebaseAuth.Tests.Provider;
 
 public class GetUserDataTests
 {

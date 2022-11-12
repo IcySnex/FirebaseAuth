@@ -47,7 +47,7 @@ public class SignupTests
     }
 
     [Test] // DISABLE EMAIL&PASSWORD LOGIN INSIDE "FIREBASE AUTHENTICATION CONSOLE PANEL: SIGN IN METHODS" TO TEST
-    [Ignore("Spams the firebase api: Only run this test on-demand!")]
+    [Ignore("Spams the Firebase API: Only run this test on-demand!")]
     public void Failure_OperationNotAllowed()
     {
         // Mock request
