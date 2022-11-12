@@ -129,6 +129,9 @@ public class AuthenticationException : Exception
                 
                 if (message.StartsWith("MISSING_OR_INVALID_NONCE"))
                     return new MissingOrInvalidNonceException();
+                
+                if (message.StartsWith("Invalid value"))
+                    return new InvalidValueException();
 
 
                 return new("UNDEFINDED", $"An unknown exception occurred while trying to communicate with the Firebase authentication server. ({message})") { ResponseData = responseData};
