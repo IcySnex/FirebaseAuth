@@ -107,14 +107,14 @@ public class User
     /// <summary>
     /// The date and time when the password of this user last got updated
     /// </summary>
-    [JsonConverter(typeof(MsToDateTimeJsonConverter))]
+    [JsonConverter(typeof(MsJsonConverter))]
     [JsonPropertyName("passwordUpdatedAt")]
     public DateTime PasswordUpdatedAt { get; }
 
     /// <summary>
     /// The date and time when this user is valid
     /// </summary>
-    [JsonConverter(typeof(SStringToDateTimeJsonConverter))]
+    [JsonConverter(typeof(SStringJsonConverter))]
     [JsonPropertyName("validSince")]
     public DateTime ValidSince { get; }
 
@@ -127,14 +127,14 @@ public class User
     /// <summary>
     /// The date and time when this user last logged in
     /// </summary>
-    [JsonConverter(typeof(MsStringToDateTimeJsonConverter))]
+    [JsonConverter(typeof(MsStringJsonConverter))]
     [JsonPropertyName("lastLoginAt")]
     public DateTime LastLoginAt { get; }
 
     /// <summary>
     /// The date and time when this user was created
     /// </summary>
-    [JsonConverter(typeof(MsStringToDateTimeJsonConverter))]
+    [JsonConverter(typeof(MsStringJsonConverter))]
     [JsonPropertyName("createdAt")]
     public DateTime CreatedAt { get; }
 
@@ -151,7 +151,7 @@ public class User
     public DateTime LastRefreshAt { get; }
 
     /// <summary>
-    /// The date and time when this user was fetched from Firebase
+    /// The date and time when this user request was recieved
     /// </summary>
-    public DateTime UpdatedAt { get; } = DateTime.Now;
+    public DateTime Recieved { get; } = DateTime.Now;
 }

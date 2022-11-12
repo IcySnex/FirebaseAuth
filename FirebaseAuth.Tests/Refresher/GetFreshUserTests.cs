@@ -30,13 +30,13 @@ public class GetFreshUserTests
     [Test]
     public async Task Success_Refresh()
     {
-        // Get old UpdatedAt
-        DateTime oldUpdatedAt = refresher.User?.UpdatedAt ?? DateTime.Now;
+        // Get old recieved date and time
+        DateTime oldUpdatedAt = refresher.User?.Recieved ?? DateTime.Now;
 
-        // Wait 3s and get new UpdatedAt
+        // Wait 3s and get new recieved date and time
         await Task.Delay(3000);
         User user = await refresher.GetFreshUserAsync(TimeSpan.FromMilliseconds(3000));
-        DateTime newUpdatedAt = user.UpdatedAt;
+        DateTime newUpdatedAt = user.Recieved;
 
         // Run Test: Expected behaviour: new UpdatedAt is later than old UpdatedAt
         Assert.That(newUpdatedAt, Is.GreaterThan(oldUpdatedAt));
@@ -45,15 +45,14 @@ public class GetFreshUserTests
     [Test]
     public async Task Success_DontRefresh()
     {
-        // Get old UpdatedAt
-        DateTime oldUpdatedAt = refresher.User?.UpdatedAt ?? DateTime.Now;
+        // Get old recieved date and time
+        DateTime oldUpdatedAt = refresher.User?.Recieved ?? DateTime.Now;
 
-        // Get new UpdatedAt
+        // Get new recieved date and time
         User user = await refresher.GetFreshUserAsync(TimeSpan.FromMilliseconds(3000));
-        DateTime newUpdatedAt = user.UpdatedAt;
+        DateTime newUpdatedAt = user.Recieved;
 
         // Run Test: Expected behaviour: old UpdatedAt does equal new UpdatedAt
         Assert.That(oldUpdatedAt, Is.EqualTo(newUpdatedAt));
     }
-
 }

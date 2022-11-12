@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using FirebaseAuth.Internal.Json;
+using System.Text.Json.Serialization;
 
 namespace FirebaseAuth.Responses;
 
@@ -17,7 +18,7 @@ public class AuthenticationResponse
     public AuthenticationResponse(
         string idToken,
         string refreshToken,
-        int expiresIn)
+        TimeSpan expiresIn)
     {
         IdToken = idToken;
         RefreshToken = refreshToken;
@@ -39,9 +40,9 @@ public class AuthenticationResponse
     /// <summary>
     /// The expiration time in seconds for the RefreshToken
     /// </summary>
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
+    [JsonConverter(typeof(SecondsJsonConverter))]
     [JsonPropertyName("expiresIn")]
-    public int ExpiresIn { get; }
+    public TimeSpan ExpiresIn { get; }
 
     /// <summary>
     /// The date and time when this response was recieved
@@ -51,5 +52,5 @@ public class AuthenticationResponse
     /// <summary>
     /// A boolean wether the secure RefreshToken is expired
     /// </summary>
-    public bool IsExpired => DateTime.Now > Recieved.AddSeconds(ExpiresIn - 5);
+    public bool IsExpired => DateTime.Now > Recieved.Add(ExpiresIn);
 }
