@@ -1,4 +1,6 @@
-﻿using FirebaseAuth.Internal.Json;
+﻿#pragma warning disable CS0618 // PasswordHash: Type or member is obsolete
+
+using FirebaseAuth.Internal.Json;
 using System.Text.Json.Serialization;
 
 namespace FirebaseAuth.Models;
@@ -20,7 +22,7 @@ public class User
     /// <param name="photoUrl">The photo url of this user</param>
     /// <param name="passwordHash">The password hash of this user</param>
     /// <param name="passwordUpdatedAt">The date and time when the password of this user last got updated</param>
-    /// <param name="validSince">The timespan since when this user is valid</param>
+    /// <param name="validSince">The date and time when this user is valid</param>
     /// <param name="isDisabled">A boolean wether this user is disabled</param>
     /// <param name="lastLoginAt">The date and time when this user last logged in</param>
     /// <param name="createdAt">The date and time when this user was created</param>
@@ -110,9 +112,9 @@ public class User
     public DateTime PasswordUpdatedAt { get; }
 
     /// <summary>
-    /// The timespan since when this user is valid
+    /// The date and time when this user is valid
     /// </summary>
-    [JsonConverter(typeof(MsStringToDateTimeJsonConverter))]
+    [JsonConverter(typeof(SStringToDateTimeJsonConverter))]
     [JsonPropertyName("validSince")]
     public DateTime ValidSince { get; }
 
@@ -147,4 +149,9 @@ public class User
     /// </summary>
     [JsonPropertyName("lastRefreshAt")]
     public DateTime LastRefreshAt { get; }
+
+    /// <summary>
+    /// The date and time when this user was fetched from Firebase
+    /// </summary>
+    public DateTime UpdatedAt { get; } = DateTime.Now;
 }

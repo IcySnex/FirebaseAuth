@@ -1,4 +1,5 @@
 ﻿using FirebaseAuth.EventArgs;
+using FirebaseAuth.Models;
 using FirebaseAuth.Responses;
 
 namespace FirebaseAuth.Interfaces;
@@ -9,15 +10,41 @@ namespace FirebaseAuth.Interfaces;
 public interface IAuthenticationRefresher
 {
     /// <summary>
-    /// Fires when the current secure RefreshToken refreshed
+    /// The corresponding authenitcation
     /// </summary>
-    event EventHandler<RefreshTokenRefreshEventArgs>? RefreshTokenRefreshed;
+    AuthenticationResponse Authentication { get; }
+
+    /// <summary>
+    /// Fires when the current secure AuthenticationResponse refreshed
+    /// </summary>
+    event EventHandler<AuthenticationRefreshEventArgs>? AuthenticationRefreshed;
+
+    /// <summary>
+    /// Checks if the current authenitcation is expired and if so sends a new RefreshRequest
+    /// </summary>
+    /// <param name="cancellationToken">The token to cancel this action</param>
+    /// <returns>An always refreshed AuthenticationResponse</returns>
+    Task<AuthenticationResponse> GetFreshAuthentcationAsync(
+        CancellationToken cancellationToken = default);
 
 
     /// <summary>
-    /// Checks if the current secure RefreshToken is expired and if so sends a new RefreshRequest
+    /// The corresponding user
     /// </summary>
-    /// <returns>An always refreshed AuthenticationResponse</returns>
-    Task<AuthenticationResponse> GetFreshAuthentcationAsync();
+    User? User { get; }
 
+    /// <summary>
+    /// Fires when the current user refreshed
+    /// </summary>
+    event EventHandler<UserRefreshEventArgs>? UserRefreshed;
+
+    /// <summary>
+    /// Checks if the current user is expired by the given time and if so sends a new UserDataRequest
+    /// </summary>
+    /// <param name="willExpireAfter">The given time to check if its expired. Null if it should always return a fresh user</param>
+    /// <param name="cancellationToken">The token to cancel this action</param>
+    /// <returns>An optioanlly refreshed User</returns>
+    Task<User> GetFreshUserAsync(
+        TimeSpan? willExpireAfter = null,
+        CancellationToken cancellationToken = default);
 }
