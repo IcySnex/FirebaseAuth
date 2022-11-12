@@ -1,8 +1,11 @@
 ﻿using FirebaseAuth.Exceptions;
 using System.Text.Json;
 
-namespace FirebaseAuth.Internal;
+namespace FirebaseAuth.Internal.Json;
 
+/// <summary>
+/// Helper collection for all JSON related actions
+/// </summary>
 internal class JsonHelper
 {
     /// <summary>
