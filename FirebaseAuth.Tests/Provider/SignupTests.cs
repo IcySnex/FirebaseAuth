@@ -3,14 +3,15 @@ using FirebaseAuth.Configuration;
 using FirebaseAuth.Exceptions;
 using FirebaseAuth.Requests;
 
-namespace FirebaseAuth.Tests.Authentication;
+namespace FirebaseAuth.Tests.Provider;
 
 public class SignupTests
 {
-    readonly AuthenticationConfig config;
-    readonly AuthenticationProvider provider;
+    AuthenticationConfig config;
+    AuthenticationProvider provider;
 
-    public SignupTests()
+    [OneTimeSetUp]
+    public void Setup()
     {
         // Mock config/provider
         config = new(TestData.ApiKey, TestData.Timeout);
