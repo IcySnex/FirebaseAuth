@@ -1,5 +1,8 @@
 ﻿namespace FirebaseAuth.Internal;
 
+/// <summary>
+/// A collection of all Firebase Authentication endpoints
+/// </summary>
 internal static class Endpoints
 {
     public static string VerifyCustomToken = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken";

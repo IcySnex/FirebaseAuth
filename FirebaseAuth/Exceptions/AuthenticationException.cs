@@ -1,6 +1,5 @@
-﻿using FirebaseAuth.Internal;
+﻿using FirebaseAuth.Internal.Json;
 using FirebaseAuth.Responses;
-using System.Security.Authentication;
 
 namespace FirebaseAuth.Exceptions;
 
@@ -18,6 +17,7 @@ public class AuthenticationException : Exception
     /// Deserializes the given response data into a ErrorResponse model and checks for the representing exception
     /// </summary>
     /// <param name="responseData">The response data which should be deserialized</param>
+    /// <exception cref="AuthenticationException">Throws the representing AuthenticationException</exception>
     /// <returns>The representing exception</returns>
     public static AuthenticationException FromResponseData(
         string responseData)

@@ -1,11 +1,14 @@
 ﻿namespace FirebaseAuth.Internal;
 
+/// <summary>
+/// Message handler which adds the API key to every request
+/// </summary>
 internal class ApiKeyHttpMessageHandler : DelegatingHandler
 {
     readonly string key;
 
     /// <summary>
-    /// Creates a new ApiKeyHtppMessageHandler which adds the API key to every request
+    /// Creates a new ApiKeyHtppMessageHandler
     /// </summary>
     /// <param name="key">The api key which should be added</param>
     public ApiKeyHttpMessageHandler(
