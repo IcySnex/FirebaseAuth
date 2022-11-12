@@ -5,7 +5,6 @@ namespace FirebaseAuth.Types;
 /// <summary>
 /// The provider type of the Authentication
 /// </summary>
-
 public enum Provider
 {
     /// <summary>

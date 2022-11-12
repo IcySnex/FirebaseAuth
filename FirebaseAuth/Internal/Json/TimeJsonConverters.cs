@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace FirebaseAuth.Internal.Json;
 
-public class MsToDateTimeJsonConverter : JsonConverter<DateTime>
+public class MsJsonConverter : JsonConverter<DateTime>
 {
     public override DateTime Read(
         ref Utf8JsonReader reader,
@@ -18,7 +18,7 @@ public class MsToDateTimeJsonConverter : JsonConverter<DateTime>
         writer.WriteStringValue(new DateTimeOffset(dateTime).ToUnixTimeMilliseconds().ToString());
 }
 
-public class MsStringToDateTimeJsonConverter : JsonConverter<DateTime>
+public class MsStringJsonConverter : JsonConverter<DateTime>
 {
     public override DateTime Read(
         ref Utf8JsonReader reader,
@@ -33,7 +33,7 @@ public class MsStringToDateTimeJsonConverter : JsonConverter<DateTime>
         writer.WriteStringValue(new DateTimeOffset(dateTime).ToUnixTimeMilliseconds().ToString());
 }
 
-public class SStringToDateTimeJsonConverter : JsonConverter<DateTime>
+public class SStringJsonConverter : JsonConverter<DateTime>
 {
     public override DateTime Read(
         ref Utf8JsonReader reader,
@@ -46,4 +46,19 @@ public class SStringToDateTimeJsonConverter : JsonConverter<DateTime>
         DateTime dateTime,
         JsonSerializerOptions options) =>
         writer.WriteStringValue(new DateTimeOffset(dateTime).ToUnixTimeSeconds().ToString());
+}
+
+public class SecondsJsonConverter : JsonConverter<TimeSpan>
+{
+    public override TimeSpan Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options) =>
+        TimeSpan.FromSeconds(reader.GetString() is string s? double.Parse(s) : 0);
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        TimeSpan timeSpan,
+        JsonSerializerOptions options) =>
+        writer.WriteStringValue(timeSpan.Seconds.ToString());
 }

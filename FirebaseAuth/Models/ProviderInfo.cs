@@ -41,7 +41,7 @@ public class ProviderInfo
     /// <summary>
     /// The type of this provider
     /// </summary>
-    [JsonConverter(typeof(ProviderToStringJsonConverter))]
+    [JsonConverter(typeof(ProviderJsonConverter))]
     [JsonPropertyName("providerId")]
     public Provider Provider { get; }
 
