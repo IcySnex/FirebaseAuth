@@ -11,7 +11,7 @@ namespace FirebaseAuth.Authentication;
 /// </summary>
 public class AuthenticationRefresher : IAuthenticationRefresher
 {
-    readonly IAuthenticationProvider provider;
+    readonly IAuthenticationClient client;
 
     /// <summary>
     /// Creates a new AuthenticationRefresher
@@ -20,11 +20,11 @@ public class AuthenticationRefresher : IAuthenticationRefresher
     /// <param name="response">The corresponding authenitcation</param>
     /// <param name="user">The corresponding user</param>
     public AuthenticationRefresher(
-        IAuthenticationProvider provider,
+        IAuthenticationClient client,
         AuthenticationResponse response,
         User? user = null)
     {
-        this.provider = provider;
+        this.client = client;
 
         Authentication = response;
         User = user;
@@ -64,7 +64,7 @@ public class AuthenticationRefresher : IAuthenticationRefresher
             return Authentication;
 
         RefreshAuthenticationRequest request = new(Authentication.RefreshToken);
-        AuthenticationResponse freshResponse = await provider.RefreshAuthenticationAsync(request, cancellationToken);
+        AuthenticationResponse freshResponse = await client.RefreshAuthenticationAsync(request, cancellationToken);
         AuthenticationRefreshed?.Invoke(this, new(Authentication, freshResponse));
         Authentication = freshResponse;
 
@@ -107,7 +107,7 @@ public class AuthenticationRefresher : IAuthenticationRefresher
             return User;
 
         UserDataRequest request = new(Authentication.IdToken);
-        User freshUser = await provider.GetUserDataAsync(request, cancellationToken);
+        User freshUser = await client.GetUserDataAsync(request, cancellationToken);
         UserRefreshed?.Invoke(this, new(User, freshUser));
         User = freshUser;
 

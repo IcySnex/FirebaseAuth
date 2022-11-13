@@ -1,22 +1,21 @@
-using FirebaseAuth.Authentication;
+using FirebaseAuth.Authentication.Interfaces;
 using FirebaseAuth.Configuration;
 using FirebaseAuth.Exceptions;
-using FirebaseAuth.Requests;
 using FirebaseAuth.Requests.Interfaces;
 
-namespace FirebaseAuth.Tests.Provider;
+namespace FirebaseAuth.Tests.Client;
 
 public class SignUpTests
 {
     AuthenticationConfig config;
-    AuthenticationProvider provider;
+    IAuthenticationClient client;
 
     [OneTimeSetUp]
     public void Setup()
     {
-        // Mock config/provider
+        // Mock config/client
         config = new(TestData.ApiKey, TestData.Timeout);
-        provider = new(config);
+        client = IAuthenticationClient.New(config);
     }
 
 
@@ -29,7 +28,7 @@ public class SignUpTests
         // Run Test: Expected behaviour: Run without exception
         Assert.DoesNotThrowAsync(async () =>
         {
-            await provider.SignUpAsync(request);
+            await client.SignUpAsync(request);
         });
     }
 
@@ -43,7 +42,7 @@ public class SignUpTests
         // Run Test: Expected behaviour: Throw exception
         Assert.ThrowsAsync(typeof(AdminOnlyOperationException), async () =>
         {
-            await provider.SignUpAsync(request);
+            await client.SignUpAsync(request);
         });
     }
 
@@ -57,7 +56,7 @@ public class SignUpTests
         // Run Test: Expected behaviour: Run without exception
         Assert.DoesNotThrowAsync(async () =>
         {
-            await provider.SignUpAsync(request);
+            await client.SignUpAsync(request);
         });
     }
 
@@ -70,8 +69,8 @@ public class SignUpTests
         // Run Test: Expected behaviour: Run first time without exception, but throw exception on second try
         Assert.ThrowsAsync(typeof(EmailExistsException), async () =>
         {
-            await provider.SignUpAsync(request);
-            await provider.SignUpAsync(request);
+            await client.SignUpAsync(request);
+            await client.SignUpAsync(request);
         });
     }
 
@@ -85,7 +84,7 @@ public class SignUpTests
         // Run Test: Expected behaviour: Throw exception
         Assert.ThrowsAsync(typeof(OperationNotAllowedException), async () =>
         {
-            await provider.SignUpAsync(request);
+            await client.SignUpAsync(request);
         });
     }
 
@@ -101,7 +100,7 @@ public class SignUpTests
                 //Mock request
                 ISignUpRequest request = ISignUpRequest.WithEmailPassword(TestData.RandomEmail, TestData.Password, TestData.ReturnSecureToken);
 
-                await provider.SignUpAsync(request);
+                await client.SignUpAsync(request);
             }
         });
     }
@@ -115,7 +114,7 @@ public class SignUpTests
         // Run Test: Expected behaviour: Run first time without exception, but throw exception on second try
         Assert.ThrowsAsync(typeof(InvalidEmailException), async () =>
         {
-            await provider.SignUpAsync(request);
+            await client.SignUpAsync(request);
         });
     }
 
@@ -128,7 +127,7 @@ public class SignUpTests
         // Run Test: Expected behaviour: Throw exception
         Assert.ThrowsAsync(typeof(MissingEmailException), async () =>
         {
-            await provider.SignUpAsync(request);
+            await client.SignUpAsync(request);
         });
     }
 
@@ -141,7 +140,7 @@ public class SignUpTests
         // Run Test: Expected behaviour: Throw exception
         Assert.ThrowsAsync(typeof(MissingPasswordException), async () =>
         {
-            await provider.SignUpAsync(request);
+            await client.SignUpAsync(request);
         });
     }
 }

@@ -1,29 +1,28 @@
-using FirebaseAuth.Authentication;
 using FirebaseAuth.Configuration;
 using FirebaseAuth.Exceptions;
 using FirebaseAuth.Authentication.Interfaces;
 using FirebaseAuth.Requests;
 using FirebaseAuth.Responses;
 
-namespace FirebaseAuth.Tests.Provider;
+namespace FirebaseAuth.Tests.Client;
 
 public class RefreshAuthenticationTests
 {
     AuthenticationConfig config;
-    AuthenticationProvider provider;
+    IAuthenticationClient client;
 
     IAuthenticationRefresher refresher;
 
     [OneTimeSetUp]
     public async Task SetupAsync()
     {
-        // Mock config/provider
+        // Mock config/client
         config = new(TestData.ApiKey, TestData.Timeout);
-        provider = new(config);
+        client = IAuthenticationClient.New(config);
 
         // Mock signup
         SignUpEmailPasswordRequest request = new(TestData.RandomEmail, TestData.Password, TestData.ReturnSecureToken);
-        refresher = await provider.SignUpAsync(request);
+        refresher = await client.SignUpAsync(request);
     }
 
 
@@ -36,7 +35,7 @@ public class RefreshAuthenticationTests
         // Run Test: Expected behaviour: Run without exception
         Assert.DoesNotThrowAsync(async () =>
         {
-            AuthenticationResponse authentication = await provider.RefreshAuthenticationAsync(request);
+            AuthenticationResponse authentication = await client.RefreshAuthenticationAsync(request);
 
             // Run Test: Expected behaviour: new refresh token does not equal to old refresh token
             Assert.That(authentication.RefreshToken, Is.Not.EqualTo(refresher.Authentication.RefreshToken));
@@ -52,7 +51,7 @@ public class RefreshAuthenticationTests
         // Run Test: Expected behaviour: Throw exception
         Assert.ThrowsAsync(typeof(MissingRefreshTokenException), async () =>
         {
-            AuthenticationResponse authentication = await provider.RefreshAuthenticationAsync(request);
+            AuthenticationResponse authentication = await client.RefreshAuthenticationAsync(request);
         });
     }
 
@@ -65,7 +64,7 @@ public class RefreshAuthenticationTests
         // Run Test: Expected behaviour: Throw exception
         Assert.ThrowsAsync(typeof(InvalidRefreshTokenException), async () =>
         {
-            AuthenticationResponse authentication = await provider.RefreshAuthenticationAsync(request);
+            AuthenticationResponse authentication = await client.RefreshAuthenticationAsync(request);
         });
     }
 }

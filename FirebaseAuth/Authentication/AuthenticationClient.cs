@@ -11,20 +11,20 @@ using FirebaseAuth.Types;
 namespace FirebaseAuth.Authentication;
 
 /// <summary>
-/// Provider for all Firebase Authentication actions
+/// Client for all high level Firebase Authentication actions
 /// </summary>
-public class AuthenticationProvider : IAuthenticationProvider
+public class AuthenticationClient : IAuthenticationClient
 {
     readonly RequestHelper requestHelper;
 
     /// <summary>
-    /// Creates a new AuthenticationProvider
+    /// Creates a new AuthenticationClient
     /// </summary>
-    /// <param name="authenticationConfig">The configuration the AuthenticationProvider should be created with</param>
-    public AuthenticationProvider(
-        AuthenticationConfig authenticationConfig)
+    /// <param name="authenticationConfig">The configuration the AuthenticationClient should be created with</param>
+    public AuthenticationClient(
+        AuthenticationConfig config)
     {
-        requestHelper = new(authenticationConfig);
+        requestHelper = new(config);
     }
 
 

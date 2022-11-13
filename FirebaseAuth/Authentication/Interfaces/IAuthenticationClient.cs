@@ -1,4 +1,5 @@
-﻿using FirebaseAuth.Models;
+﻿using FirebaseAuth.Configuration;
+using FirebaseAuth.Models;
 using FirebaseAuth.Requests;
 using FirebaseAuth.Requests.Interfaces;
 using FirebaseAuth.Responses;
@@ -6,9 +7,9 @@ using FirebaseAuth.Responses;
 namespace FirebaseAuth.Authentication.Interfaces;
 
 /// <summary>
-/// Provider for all Firebase Authentication actions
+/// Client for all high level Firebase Authentication actions
 /// </summary>
-public interface IAuthenticationProvider
+public interface IAuthenticationClient
 {
     /// <summary>
     /// Refreshes the authentication by exchanging a refresh token for an Id token
@@ -96,4 +97,13 @@ public interface IAuthenticationProvider
     Task<IAuthenticationRefresher> SignUpAsync(
         ISignUpRequest request,
         CancellationToken cancellationToken = default);
+
+
+    /// <summary>
+    /// Creates a new AuthenticationClient
+    /// </summary>
+    /// <param name="config">The configuration the AuthenticationClient should be created with</param>
+    public static IAuthenticationClient New(
+        AuthenticationConfig config) =>
+        new AuthenticationClient(config);
 }

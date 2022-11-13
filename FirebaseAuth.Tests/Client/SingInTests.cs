@@ -1,21 +1,21 @@
-using FirebaseAuth.Authentication;
+using FirebaseAuth.Authentication.Interfaces;
 using FirebaseAuth.Configuration;
 using FirebaseAuth.Exceptions;
 using FirebaseAuth.Requests.Interfaces;
 
-namespace FirebaseAuth.Tests.Provider;
+namespace FirebaseAuth.Tests.Client;
 
 public class SingInTests
 {
     AuthenticationConfig config;
-    AuthenticationProvider provider;
+    IAuthenticationClient provider;
 
     [OneTimeSetUp]
     public void Setup()
     {
         // Mock config/provider
         config = new(TestData.ApiKey, TestData.Timeout);
-        provider = new(config);
+        provider = IAuthenticationClient.New(config);
     }
 
 

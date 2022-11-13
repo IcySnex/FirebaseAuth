@@ -1,20 +1,20 @@
-﻿using FirebaseAuth.Authentication;
+﻿using FirebaseAuth.Authentication.Interfaces;
 using FirebaseAuth.Configuration;
 using FirebaseAuth.Requests;
 
-namespace FirebaseAuth.Tests.Provider;
+namespace FirebaseAuth.Tests.Client;
 
 public class GetUserDataTests
 {
     AuthenticationConfig config;
-    AuthenticationProvider provider;
+    IAuthenticationClient client;
 
     [OneTimeSetUp]
     public void Setup()
     {
         // Mock config/provider
         config = new(TestData.ApiKey, TestData.Timeout);
-        provider = new(config);
+        client = IAuthenticationClient.New(config);
     }
 
 
@@ -26,7 +26,7 @@ public class GetUserDataTests
         // Run Test: Expected behaviour: Run without exception
         Assert.DoesNotThrowAsync(async () =>
         {
-            await provider.GetUserDataAsync(request);
+            await client.GetUserDataAsync(request);
         });
     }
 
@@ -38,7 +38,7 @@ public class GetUserDataTests
         // Run Test: Expected behaviour: Run without exception
         Assert.DoesNotThrowAsync(async () =>
         {
-            await provider.GetUserDataAsync(request);
+            await client.GetUserDataAsync(request);
         });
     }
 }

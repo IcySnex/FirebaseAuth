@@ -1,5 +1,4 @@
-﻿using FirebaseAuth.Authentication;
-using FirebaseAuth.Configuration;
+﻿using FirebaseAuth.Configuration;
 using FirebaseAuth.Authentication.Interfaces;
 using FirebaseAuth.Responses;
 using FirebaseAuth.Requests.Interfaces;
@@ -9,20 +8,20 @@ namespace FirebaseAuth.Tests.Refresher;
 public class GetFreshAuthenticationTests
 {
     AuthenticationConfig config;
-    AuthenticationProvider provider;
+    IAuthenticationClient client;
 
     IAuthenticationRefresher refresher;
 
     [OneTimeSetUp]
     public async Task SetupAsync()
     {
-        // Mock config/provider
+        // Mock config/client
         config = new(TestData.ApiKey, TestData.Timeout);
-        provider = new(config);
+        client = IAuthenticationClient.New(config);
 
         // Mock signup
         ISignUpRequest request = ISignUpRequest.WithEmailPassword(TestData.RandomEmail, TestData.Password, TestData.ReturnSecureToken);
-        refresher = await provider.SignUpAsync(request);
+        refresher = await client.SignUpAsync(request);
 
     }
 

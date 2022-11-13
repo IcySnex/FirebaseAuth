@@ -17,13 +17,13 @@ internal class RequestHelper
     /// </summary>
     /// <param name="authenticationConfig">The configuration for the HttpClient</param>
     public RequestHelper(
-        AuthenticationConfig authenticationConfig)
+        AuthenticationConfig config)
     {
-        ApiKeyHttpMessageHandler messageHandler = new(authenticationConfig.ApiKey);
+        ApiKeyHttpMessageHandler messageHandler = new(config.ApiKey);
         httpClient = new(messageHandler);
 
-        if (authenticationConfig.Timeout.HasValue)
-            httpClient.Timeout = authenticationConfig.Timeout.Value;
+        if (config.Timeout.HasValue)
+            httpClient.Timeout = config.Timeout.Value;
 
     }
 
