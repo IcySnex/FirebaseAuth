@@ -34,6 +34,17 @@ public interface IAuthenticationClient
 
 
     /// <summary>
+    /// Fetches all providers associated with a specified email  
+    /// </summary>
+    /// <param name="request">The FetchProvidersRequest to send</param>
+    /// <param name="cancellationToken">The token to cancel this action</param>
+    /// <returns>An fetch providers model which represents all infos</returns>
+    Task<FetchProvidersResponse> FetchProvidersAsync(
+        FetchProvidersRequest request,
+        CancellationToken cancellationToken = default);
+
+
+    /// <summary>
     /// Requests all data of an user
     /// </summary>
     /// <param name="request">The UserDataRequest to send</param>

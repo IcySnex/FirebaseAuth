@@ -87,6 +87,21 @@ public class AuthenticationClient : IAuthenticationClient
 
 
     /// <summary>
+    /// Fetches all providers associated with a specified email  
+    /// </summary>
+    /// <param name="request">The FetchProvidersRequest to send</param>
+    /// <param name="cancellationToken">The token to cancel this action</param>
+    /// <returns>An fetch providers model which represents all infos</returns>
+    public Task<FetchProvidersResponse> FetchProvidersAsync(
+        FetchProvidersRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        // Send HTTP request and return authentication
+        return requestHelper.PostBodyAndParseAsync<FetchProvidersResponse>(Endpoints.CreateAuthUri, request, null, cancellationToken);
+    }
+
+
+    /// <summary>
     /// Requests all data of an user
     /// </summary>
     /// <param name="request">The UserDataRequest to send</param>

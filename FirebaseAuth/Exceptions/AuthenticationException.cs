@@ -75,6 +75,9 @@ public class AuthenticationException : Exception
             case "INVALID_PASSWORD":
                 return new InvalidPasswordException();
 
+            case "INVALID_IDENTIFIER":
+                return new InvalidIdentifierException();
+
             case "INVALID_REFRESH_TOKEN":
                 return new InvalidRefreshTokenException();
 

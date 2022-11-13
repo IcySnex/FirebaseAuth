@@ -10,6 +10,7 @@ public class UserDataResponse
 {
     /// <summary>
     /// Creates a new UserDataResponse
+    /// (Should only be used by AuthenticationClient.GetUserDataAsync())
     /// </summary>
     /// <param name="users">An array of all users</param>
     [JsonConstructor]
