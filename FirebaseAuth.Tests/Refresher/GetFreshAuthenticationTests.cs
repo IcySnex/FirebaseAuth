@@ -1,8 +1,8 @@
 ﻿using FirebaseAuth.Authentication;
 using FirebaseAuth.Configuration;
-using FirebaseAuth.Interfaces;
-using FirebaseAuth.Requests;
+using FirebaseAuth.Authentication.Interfaces;
 using FirebaseAuth.Responses;
+using FirebaseAuth.Requests.Interfaces;
 
 namespace FirebaseAuth.Tests.Refresher;
 
@@ -21,7 +21,7 @@ public class GetFreshAuthenticationTests
         provider = new(config);
 
         // Mock signup
-        SignUpRequest request = new(TestData.RandomEmail, TestData.Password, TestData.ReturnSecureToken);
+        ISignUpRequest request = ISignUpRequest.WithEmailPassword(TestData.RandomEmail, TestData.Password, TestData.ReturnSecureToken);
         refresher = await provider.SignUpAsync(request);
 
     }

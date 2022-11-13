@@ -1,11 +1,9 @@
 using FirebaseAuth.Authentication;
 using FirebaseAuth.Configuration;
 using FirebaseAuth.Exceptions;
-using FirebaseAuth.Interfaces;
-using FirebaseAuth.Models;
+using FirebaseAuth.Authentication.Interfaces;
 using FirebaseAuth.Requests;
 using FirebaseAuth.Responses;
-using System.Diagnostics;
 
 namespace FirebaseAuth.Tests.Provider;
 
@@ -24,9 +22,8 @@ public class RefreshAuthenticationTests
         provider = new(config);
 
         // Mock signup
-        SignUpRequest request = new(TestData.RandomEmail, TestData.Password, TestData.ReturnSecureToken);
+        SignUpEmailPasswordRequest request = new(TestData.RandomEmail, TestData.Password, TestData.ReturnSecureToken);
         refresher = await provider.SignUpAsync(request);
-
     }
 
 
@@ -43,6 +40,32 @@ public class RefreshAuthenticationTests
 
             // Run Test: Expected behaviour: new refresh token does not equal to old refresh token
             Assert.That(authentication.RefreshToken, Is.Not.EqualTo(refresher.Authentication.RefreshToken));
+        });
+    }
+
+    [Test]
+    public void Failure_MissingRefreshToken()
+    {
+        // Mock request
+        RefreshAuthenticationRequest request = new("");
+
+        // Run Test: Expected behaviour: Throw exception
+        Assert.ThrowsAsync(typeof(MissingRefreshTokenException), async () =>
+        {
+            AuthenticationResponse authentication = await provider.RefreshAuthenticationAsync(request);
+        });
+    }
+
+    [Test]
+    public void Failure_InvalidRefreshToken()
+    {
+        // Mock request
+        RefreshAuthenticationRequest request = new("this is an invalid refresh token");
+
+        // Run Test: Expected behaviour: Throw exception
+        Assert.ThrowsAsync(typeof(InvalidRefreshTokenException), async () =>
+        {
+            AuthenticationResponse authentication = await provider.RefreshAuthenticationAsync(request);
         });
     }
 }

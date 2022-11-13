@@ -6,10 +6,11 @@ namespace FirebaseAuth.Tests.Provider;
 
 public class GetUserDataTests
 {
-    readonly AuthenticationConfig config;
-    readonly AuthenticationProvider provider;
+    AuthenticationConfig config;
+    AuthenticationProvider provider;
 
-    public GetUserDataTests()
+    [OneTimeSetUp]
+    public void Setup()
     {
         // Mock config/provider
         config = new(TestData.ApiKey, TestData.Timeout);
@@ -29,4 +30,15 @@ public class GetUserDataTests
         });
     }
 
+    [Test]
+    public void Failure_InvalidIdToken()
+    {
+        UserDataRequest request = new("this is not a valid Id token");
+
+        // Run Test: Expected behaviour: Run without exception
+        Assert.DoesNotThrowAsync(async () =>
+        {
+            await provider.GetUserDataAsync(request);
+        });
+    }
 }
