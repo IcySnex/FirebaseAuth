@@ -2,6 +2,7 @@ using FirebaseAuth.Authentication;
 using FirebaseAuth.Configuration;
 using FirebaseAuth.Exceptions;
 using FirebaseAuth.Requests;
+using FirebaseAuth.Requests.Interfaces;
 
 namespace FirebaseAuth.Tests.Provider;
 
@@ -20,10 +21,10 @@ public class SignUpTests
 
 
     [Test]
-    public void Success()
+    public void Anonymously_Success()
     {
         // Mock request
-        SignUpRequest request = new(TestData.RandomEmail, TestData.Password, TestData.ReturnSecureToken);
+        ISignUpRequest request = ISignUpRequest.WithAnonymously(TestData.ReturnSecureToken);
 
         // Run Test: Expected behaviour: Run without exception
         Assert.DoesNotThrowAsync(async () =>
@@ -33,10 +34,38 @@ public class SignUpTests
     }
 
     [Test]
-    public void Failure_EmailExists()
+    [Ignore("Disable Anonymous login inside 'Firebase Authentication Console Panel: Sign in methods' to test")]
+    public void Anonymously_Failure_AdminOnlyOperation()
     {
         // Mock request
-        SignUpRequest request = new(TestData.Email, TestData.Password, TestData.ReturnSecureToken);
+        ISignUpRequest request = ISignUpRequest.WithAnonymously(TestData.ReturnSecureToken);
+
+        // Run Test: Expected behaviour: Throw exception
+        Assert.ThrowsAsync(typeof(AdminOnlyOperationException), async () =>
+        {
+            await provider.SignUpAsync(request);
+        });
+    }
+
+
+    [Test]
+    public void EmailPassword_Success()
+    {
+        // Mock request
+        ISignUpRequest request = ISignUpRequest.WithEmailPassword(TestData.RandomEmail, TestData.Password, TestData.ReturnSecureToken);
+
+        // Run Test: Expected behaviour: Run without exception
+        Assert.DoesNotThrowAsync(async () =>
+        {
+            await provider.SignUpAsync(request);
+        });
+    }
+
+    [Test]
+    public void EmailPassword_Failure_EmailExists()
+    {
+        // Mock request
+        ISignUpRequest request = ISignUpRequest.WithEmailPassword(TestData.Email, TestData.Password, TestData.ReturnSecureToken);
 
         // Run Test: Expected behaviour: Run first time without exception, but throw exception on second try
         Assert.ThrowsAsync(typeof(EmailExistsException), async () =>
@@ -46,12 +75,12 @@ public class SignUpTests
         });
     }
 
-    [Test] // DISABLE EMAIL&PASSWORD LOGIN INSIDE "FIREBASE AUTHENTICATION CONSOLE PANEL: SIGN IN METHODS" TO TEST
-    [Ignore("Spams the Firebase API: Only run this test on-demand!")]
-    public void Failure_OperationNotAllowed()
+    [Test]
+    [Ignore("Disable Email & Password login inside 'Firebase Authentication Console Panel: Sign in methods' to test")]
+    public void EmailPassword_Failure_OperationNotAllowed()
     {
         // Mock request
-        SignUpRequest request = new(TestData.RandomEmail, TestData.Password, TestData.ReturnSecureToken);
+        ISignUpRequest request = ISignUpRequest.WithEmailPassword(TestData.RandomEmail, TestData.Password, TestData.ReturnSecureToken);
 
         // Run Test: Expected behaviour: Throw exception
         Assert.ThrowsAsync(typeof(OperationNotAllowedException), async () =>
@@ -61,10 +90,27 @@ public class SignUpTests
     }
 
     [Test]
-    public void Failure_InvalidEmail()
+    [Ignore("Spams the Firebase API: Only run this test on-demand!")]
+    public void EmailPassword_Failure_TooManyAttempts()
+    {
+        // Run Test: Expected behaviour: Throw exception
+        Assert.ThrowsAsync(typeof(TooManyAttemptsException), async () =>
+        {
+            for (int i = 0; i < TestData.MaxRetries; i++)
+            {
+                //Mock request
+                ISignUpRequest request = ISignUpRequest.WithEmailPassword(TestData.RandomEmail, TestData.Password, TestData.ReturnSecureToken);
+
+                await provider.SignUpAsync(request);
+            }
+        });
+    }
+
+    [Test]
+    public void EmailPassword_Failure_InvalidEmail()
     {
         // Mock request
-        SignUpRequest request = new("thisisnotanemail", TestData.Password, TestData.ReturnSecureToken);
+        ISignUpRequest request = ISignUpRequest.WithEmailPassword("this is not a valid email", TestData.Password, TestData.ReturnSecureToken);
 
         // Run Test: Expected behaviour: Run first time without exception, but throw exception on second try
         Assert.ThrowsAsync(typeof(InvalidEmailException), async () =>
@@ -74,12 +120,12 @@ public class SignUpTests
     }
 
     [Test]
-    public void Failure_MissingEmail()
+    public void EmailPassword_Failure_MissingEmail()
     {
         // Mock request
-        SignUpRequest request = new("", TestData.Password, TestData.ReturnSecureToken);
+        ISignUpRequest request = ISignUpRequest.WithEmailPassword("", TestData.Password, TestData.ReturnSecureToken);
 
-        // Run Test: Expected behaviour: Run first time without exception, but throw exception on second try
+        // Run Test: Expected behaviour: Throw exception
         Assert.ThrowsAsync(typeof(MissingEmailException), async () =>
         {
             await provider.SignUpAsync(request);
@@ -87,16 +133,15 @@ public class SignUpTests
     }
 
     [Test]
-    public void Failure_MissingPassword()
+    public void EmailPassword_Failure_MissingPassword()
     {
         // Mock request
-        SignUpRequest request = new(TestData.RandomEmail, "", TestData.ReturnSecureToken);
+        ISignUpRequest request = ISignUpRequest.WithEmailPassword(TestData.RandomEmail, "", TestData.ReturnSecureToken);
 
-        // Run Test: Expected behaviour: Run first time without exception, but throw exception on second try
+        // Run Test: Expected behaviour: Throw exception
         Assert.ThrowsAsync(typeof(MissingPasswordException), async () =>
         {
             await provider.SignUpAsync(request);
         });
     }
-
 }

@@ -1,20 +1,22 @@
-﻿using System.Text.Json.Serialization;
+﻿using FirebaseAuth.Requests.Interfaces;
+using FirebaseAuth.Types;
+using System.Text.Json.Serialization;
 
 namespace FirebaseAuth.Requests;
 
 /// <summary>
-/// Model to send a new SingUp request
+/// Model to send a new SingUp with EmailPassword request
 /// </summary>
-public class SignUpRequest
+public class SignUpEmailPasswordRequest : ISignUpRequest
 {
     /// <summary>
-    /// Creates a new SingUpRequest
+    /// Creates a new SignUpEmailPasswordRequest
     /// </summary>
     /// <param name="email">The email for the new user</param>
     /// <param name="password">The password for the new user</param>
     /// <param name="returnSecureToken">Boolean wether to return a SecureToken</param>
     /// <param name="tenantId">The tenant ID for the new user</param>
-    public SignUpRequest(
+    public SignUpEmailPasswordRequest(
         string email,
         string password,
         bool returnSecureToken = true,
@@ -50,4 +52,11 @@ public class SignUpRequest
     [JsonPropertyName("tenantId")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? TenantId { get; set; }
+
+
+    /// <summary>
+    /// The type of this SignUp request
+    /// </summary>
+    [JsonIgnore]
+    public SignUpType Type { get; } = SignUpType.EmailPassword;
 }
