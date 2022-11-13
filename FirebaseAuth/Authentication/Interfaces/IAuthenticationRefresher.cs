@@ -2,7 +2,7 @@
 using FirebaseAuth.Models;
 using FirebaseAuth.Responses;
 
-namespace FirebaseAuth.Interfaces;
+namespace FirebaseAuth.Authentication.Interfaces;
 
 /// <summary>
 /// Manager to handle all Authentication refreshes

@@ -1,5 +1,5 @@
 ﻿using FirebaseAuth.EventArgs;
-using FirebaseAuth.Interfaces;
+using FirebaseAuth.Authentication.Interfaces;
 using FirebaseAuth.Models;
 using FirebaseAuth.Requests;
 using FirebaseAuth.Responses;
