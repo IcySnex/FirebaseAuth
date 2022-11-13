@@ -1,11 +1,13 @@
-﻿using System.Text.Json.Serialization;
+﻿using FirebaseAuth.Requests.Interfaces;
+using FirebaseAuth.Types;
+using System.Text.Json.Serialization;
 
 namespace FirebaseAuth.Requests;
 
 /// <summary>
 /// Model to send a new SignIn with CustomToken request
 /// </summary>
-public class SignInCustomTokenRequest
+public class SignInCustomTokenRequest : ISignInRequest
 {
     /// <summary>
     /// Creates a new SignInCustomTokenRequest
@@ -31,4 +33,11 @@ public class SignInCustomTokenRequest
     /// </summary>
     [JsonPropertyName("returnSecureToken")]
     public bool ReturnSecureToken { get; set; }
+
+
+    /// <summary>
+    /// The type of this SignIn request
+    /// </summary>
+    [JsonIgnore]
+    public SignInType Type { get; } = SignInType.CustomToken;
 }
